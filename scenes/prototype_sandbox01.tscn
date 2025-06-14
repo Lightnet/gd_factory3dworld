@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://br0k5qpyiq51j"]
+
+[ext_resource type="Texture2D" uid="uid://ys1nt5dnpw2k" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_doktg"]
+[ext_resource type="PackedScene" uid="uid://cvwejj6vurbsg" path="res://prefabs/player/player.tscn" id="1_eyjry"]
+[ext_resource type="PackedScene" uid="uid://cgw0u38lg32yo" path="res://prefabs/conveyor_belt01/conveyor_belt.tscn" id="3_m78ho"]
+[ext_resource type="PackedScene" uid="uid://bsqy7dcak1ghv" path="res://prefabs/conveyor_belt_right/conveyor_belt_right.tscn" id="4_8vvat"]
+[ext_resource type="PackedScene" uid="uid://bln38nyqlduxg" path="res://prefabs/track_cube_test/test_path_follow_3d_script.tscn" id="5_8vvat"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_doktg"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_r4q2i"]
+sky_material = SubResource("ProceduralSkyMaterial_doktg")
+
+[sub_resource type="Environment" id="Environment_m78ho"]
+background_mode = 2
+sky = SubResource("Sky_r4q2i")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4q2i"]
+albedo_texture = ExtResource("1_doktg")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_3d58g"]
+material = SubResource("StandardMaterial3D_r4q2i")
+size = Vector3(32, 1, 32)
+
+[sub_resource type="Curve3D" id="Curve3D_m78ho"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="main" type="Node"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_m78ho")
+
+[node name="levels" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="levels"]
+use_collision = true
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="levels/CSGCombiner3D"]
+mesh = SubResource("BoxMesh_3d58g")
+
+[node name="Player" parent="levels" instance=ExtResource("1_eyjry")]
+transform = Transform3D(0.00626567, 0, -0.99998, 0, 1, 0, 0.99998, 0, 0.00626567, -2.32256, 1.63965, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="conveyor_belt" parent="." node_paths=PackedStringArray("TrackForward") instance=ExtResource("3_m78ho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.274623, 1.87606, -0.440765)
+TrackForward = NodePath("../conveyor_belt_right")
+
+[node name="conveyor_belt_right" parent="." node_paths=PackedStringArray("TrackBackward") instance=ExtResource("4_8vvat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.276305, 1.87739, -1.44058)
+curve = SubResource("Curve3D_m78ho")
+TrackBackward = NodePath("../conveyor_belt")
+
+[node name="TestPathFollow3DScript" parent="." node_paths=PackedStringArray("current_tack") instance=ExtResource("5_8vvat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.281315, 2.02439, 0.0863222)
+isForward = true
+current_tack = NodePath("../conveyor_belt")

@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://be0oi3kseycxl"]
+
+[sub_resource type="Curve3D" id="Curve3D_11hoq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0.004, 0, 0.5, 0.587, 0, -0.074, 0.58724, 0, 0.0739741, -0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maxml"]
+albedo_color = Color(0.121569, 0.0980392, 0.113725, 1)
+
+[node name="conveyor_belt_path" type="Path3D"]
+curve = SubResource("Curve3D_11hoq")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.28097e-05, 0, 0)
+polygon = PackedVector2Array(-0.15, -0.05, -0.15, 0.05, 0.15, 0.05, 0.15, -0.05)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.13
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 0.41
+path_joined = false
+material = SubResource("StandardMaterial3D_maxml")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="."]
+transform = Transform3D(0.704284, 0, 0.709918, 0, 1, 0, -0.709918, 0, 0.704284, 0.004, 0, 0.5)
+
+[node name="conveyor_belt_left" type="Node3D" parent="."]

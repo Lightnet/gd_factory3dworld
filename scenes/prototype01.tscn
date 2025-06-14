@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bntt5vuvepmyb"]
+
+[ext_resource type="PackedScene" uid="uid://bsqy7dcak1ghv" path="res://prefabs/conveyor_belt_right/conveyor_belt_right.tscn" id="1_2duw5"]
+
+[node name="main" type="Node"]
+
+[node name="conveyor_belt_path" parent="." instance=ExtResource("1_2duw5")]

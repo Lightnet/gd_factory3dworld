@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bln38nyqlduxg"]
+
+[ext_resource type="Script" uid="uid://dstfpl2ii1rs4" path="res://prefabs/track_cube_test/test_path_follow_3d_script.gd" id="1_f7mjm"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_olt4h"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="TestPathFollow3DScript" type="PathFollow3D"]
+script = ExtResource("1_f7mjm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_olt4h")

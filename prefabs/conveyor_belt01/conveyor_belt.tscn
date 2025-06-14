@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgw0u38lg32yo"]
+
+[ext_resource type="Script" uid="uid://d2lkf6d5mkfub" path="res://scripts/conveyor_belt.gd" id="1_362gj"]
+[ext_resource type="Script" uid="uid://bwnseutw7behj" path="res://prefabs/conveyor_belt01/track_path_follow_3d.gd" id="1_gftej"]
+
+[sub_resource type="Curve3D" id="Curve3D_11hoq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0.58724, 0, 0.0739741, 0, 0, -0.5),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maxml"]
+albedo_color = Color(0.121569, 0.0980392, 0.113725, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gftej"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="conveyor_belt_path" type="Path3D"]
+curve = SubResource("Curve3D_11hoq")
+script = ExtResource("1_362gj")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.28097e-05, 0, 0)
+polygon = PackedVector2Array(-0.15, -0.05, -0.15, 0.05, 0.15, 0.05, 0.15, -0.05)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.01
+path_simplify_angle = 0.0
+path_rotation = 2
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 0.0
+path_joined = false
+material = SubResource("StandardMaterial3D_maxml")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="."]
+process_mode = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+visible = false
+progress = 1.0
+script = ExtResource("1_gftej")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PathFollow3D"]
+mesh = SubResource("BoxMesh_gftej")
+
+[node name="conveyor_belt" type="Node3D" parent="."]
+visible = false

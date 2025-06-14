@@ -1,0 +1,54 @@
+[gd_scene load_steps=11 format=3 uid="uid://cvwejj6vurbsg"]
+
+[ext_resource type="Script" uid="uid://dmlnslkdqhat6" path="res://scripts/state_machines/statemachine.gd" id="1_ev8v4"]
+[ext_resource type="Script" uid="uid://cxhrwkf8jkxwh" path="res://prefabs/player/player.gd" id="1_vhck3"]
+[ext_resource type="Script" uid="uid://copi64u8nkhy" path="res://scripts/state_machines/idle.gd" id="2_vhck3"]
+[ext_resource type="Script" uid="uid://ht87r8cdubd3" path="res://scripts/state_machines/walk.gd" id="3_2c4n1"]
+[ext_resource type="Script" uid="uid://dj334dephomrl" path="res://scripts/state_machines/jump.gd" id="4_oo3uv"]
+[ext_resource type="Script" uid="uid://cfpqewy7fryu5" path="res://scripts/state_machines/crouch.gd" id="5_30gqm"]
+[ext_resource type="Script" uid="uid://bp2olmqefk6d" path="res://scripts/state_machines/sprint.gd" id="6_hvqk4"]
+[ext_resource type="Script" uid="uid://dh0c3cr0nsjh7" path="res://scripts/state_machines/fall.gd" id="7_b6byk"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_u5g63"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eq17h"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_vhck3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_u5g63")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_eq17h")
+
+[node name="neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="neck"]
+
+[node name="RayCast3D" type="RayCast3D" parent="neck/Camera3D"]
+target_position = Vector3(0, 0, -3)
+
+[node name="state_machine" type="Node" parent="."]
+script = ExtResource("1_ev8v4")
+isController = true
+
+[node name="idle" type="Node" parent="state_machine"]
+script = ExtResource("2_vhck3")
+
+[node name="walk" type="Node" parent="state_machine"]
+script = ExtResource("3_2c4n1")
+
+[node name="jump" type="Node" parent="state_machine"]
+script = ExtResource("4_oo3uv")
+
+[node name="crouch" type="Node" parent="state_machine"]
+script = ExtResource("5_30gqm")
+
+[node name="sprint" type="Node" parent="state_machine"]
+script = ExtResource("6_hvqk4")
+
+[node name="fall" type="Node" parent="state_machine"]
+script = ExtResource("7_b6byk")
