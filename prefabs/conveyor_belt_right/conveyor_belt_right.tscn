@@ -5,11 +5,12 @@
 
 [sub_resource type="Curve3D" id="Curve3D_11hoq"]
 resource_local_to_scene = true
+bake_interval = 5.0
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
-"tilts": PackedFloat32Array(0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0, 0, 0, 0, 0, 0, 0.000328898, 0, 0.234849, 0, 0, 0, 0, 0, 0, 0.236689, -0.00134277, 0.00505511, 0, 0, 0, 0.189982, 0, 0.00709447, 0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
 }
-point_count = 2
+point_count = 4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maxml"]
 albedo_color = Color(0.121569, 0.0980392, 0.113725, 1)
@@ -39,14 +40,13 @@ material = SubResource("StandardMaterial3D_maxml")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="."]
 process_mode = 4
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 0, 0.5)
+transform = Transform3D(0.99993, 0, 0, 0, 0.999973, 0, 0, 0, 0.999934, 0.495421, -2.4661e-05, -2.78056e-05)
 visible = false
+progress = 0.849588
+rotation_mode = 0
 script = ExtResource("1_0gxvl")
-isForward = true
+speed = 0.1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="PathFollow3D"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 mesh = SubResource("BoxMesh_s3pls")
 skeleton = NodePath("")
-
-[node name="conveyor_belt_right" type="Node3D" parent="."]

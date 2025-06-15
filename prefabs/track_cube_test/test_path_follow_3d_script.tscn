@@ -6,7 +6,13 @@
 size = Vector3(0.2, 0.2, 0.2)
 
 [node name="TestPathFollow3DScript" type="PathFollow3D"]
+rotation_mode = 0
+cubic_interp = false
+loop = false
+tilt_enabled = false
 script = ExtResource("1_f7mjm")
+speed = 0.1
+isCheckValue = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_olt4h")

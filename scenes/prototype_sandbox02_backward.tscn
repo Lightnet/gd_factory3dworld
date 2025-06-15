@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://do656rgbtgf5f"]
+[gd_scene load_steps=15 format=3 uid="uid://do656rgbtgf5f"]
 
 [ext_resource type="Texture2D" uid="uid://ys1nt5dnpw2k" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_1j6vc"]
 [ext_resource type="PackedScene" uid="uid://cvwejj6vurbsg" path="res://prefabs/player/player.tscn" id="2_a22om"]
@@ -26,7 +26,31 @@ uv1_triplanar = true
 material = SubResource("StandardMaterial3D_r4q2i")
 size = Vector3(32, 1, 32)
 
-[sub_resource type="Curve3D" id="Curve3D_m78ho"]
+[sub_resource type="Curve3D" id="Curve3D_1j6vc"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_a22om"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_rii1j"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="Curve3D" id="Curve3D_8en3t"]
 resource_local_to_scene = true
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
@@ -65,18 +89,40 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="conveyor_belt" parent="." node_paths=PackedStringArray("TrackForward") instance=ExtResource("3_rii1j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.274623, 1.87606, -0.440765)
+[node name="conveyor_belt" parent="." node_paths=PackedStringArray("TrackForward", "TrackBackward") instance=ExtResource("3_rii1j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.274623, 1.57338, -0.440765)
 TrackForward = NodePath("../conveyor_belt_right")
+TrackBackward = NodePath("../conveyor_belt_right2")
+
+[node name="conveyor_belt2" parent="." node_paths=PackedStringArray("TrackForward", "TrackBackward") instance=ExtResource("3_rii1j")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 1.27462, 1.57338, -0.440765)
+TrackForward = NodePath("../conveyor_belt_right")
+TrackBackward = NodePath("../conveyor_belt_right4")
 
 [node name="conveyor_belt_right" parent="." node_paths=PackedStringArray("TrackBackward") instance=ExtResource("4_8en3t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.276305, 1.87739, -1.44058)
-curve = SubResource("Curve3D_m78ho")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.276305, 1.57471, -1.44058)
+curve = SubResource("Curve3D_1j6vc")
 TrackBackward = NodePath("../conveyor_belt")
 
+[node name="conveyor_belt_right4" parent="." node_paths=PackedStringArray("TrackBackward") instance=ExtResource("4_8en3t")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.2763, 1.57471, -1.44058)
+curve = SubResource("Curve3D_a22om")
+TrackBackward = NodePath("../conveyor_belt_right")
+
+[node name="conveyor_belt_right2" parent="." node_paths=PackedStringArray("TrackBackward") instance=ExtResource("4_8en3t")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.276305, 1.57471, 0.55942)
+curve = SubResource("Curve3D_rii1j")
+TrackBackward = NodePath("../conveyor_belt_right3")
+
+[node name="conveyor_belt_right3" parent="." node_paths=PackedStringArray("TrackBackward") instance=ExtResource("4_8en3t")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.2763, 1.57471, 0.55942)
+curve = SubResource("Curve3D_8en3t")
+TrackBackward = NodePath("../conveyor_belt2")
+
 [node name="TestPathFollow3DScript" parent="." node_paths=PackedStringArray("current_tack") instance=ExtResource("5_aai7t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.712683, 1.94003, -1.36943)
-progress = 1.0
-cubic_interp = false
-loop = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.712683, 1.63735, -1.36943)
 current_tack = NodePath("../conveyor_belt_right")
+speed = 1.0
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0986, 0.212679)

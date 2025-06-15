@@ -1,7 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://bntt5vuvepmyb"]
+[gd_scene load_steps=3 format=3 uid="uid://bntt5vuvepmyb"]
 
 [ext_resource type="PackedScene" uid="uid://bsqy7dcak1ghv" path="res://prefabs/conveyor_belt_right/conveyor_belt_right.tscn" id="1_2duw5"]
+
+[sub_resource type="Curve3D" id="Curve3D_2duw5"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0.5, -0.592894, 0, -0.0767823, 0.592894, 0, 0.0767823, 0.5, 0, 0),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
 
 [node name="main" type="Node"]
 
 [node name="conveyor_belt_path" parent="." instance=ExtResource("1_2duw5")]
+curve = SubResource("Curve3D_2duw5")

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dby3nnrl4aefg"]
+
+[ext_resource type="Shader" uid="uid://cbxak8ksubbdv" path="res://shaders/conveyor_belt_segment2.gdshader" id="1_40180"]
+[ext_resource type="Texture2D" uid="uid://jqn1njt86ani" path="res://addons/kenney_prototype_textures/dark/texture_09.png" id="1_n87h3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pu3hv"]
+render_priority = 0
+shader = ExtResource("1_40180")
+shader_parameter/speed = 1.0
+shader_parameter/texture_scale = Vector2(10, 10)
+shader_parameter/albedo_texture = ExtResource("1_n87h3")
+
+[sub_resource type="BoxMesh" id="BoxMesh_x8ykm"]
+
+[node name="Node" type="Node"]
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+material_override = SubResource("ShaderMaterial_pu3hv")
+mesh = SubResource("BoxMesh_x8ykm")

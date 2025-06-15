@@ -1,0 +1,247 @@
+[gd_scene load_steps=18 format=3 uid="uid://uyfyqalsmh8l"]
+
+[ext_resource type="Texture2D" uid="uid://ys1nt5dnpw2k" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_f4d73"]
+[ext_resource type="PackedScene" uid="uid://cvwejj6vurbsg" path="res://prefabs/player/player.tscn" id="2_etmqh"]
+[ext_resource type="Texture2D" uid="uid://jqn1njt86ani" path="res://addons/kenney_prototype_textures/dark/texture_09.png" id="3_f4d73"]
+[ext_resource type="Shader" uid="uid://cbxak8ksubbdv" path="res://shaders/conveyor_belt_segment2.gdshader" id="4_f4d73"]
+[ext_resource type="Script" uid="uid://cnmcb5wju5xx3" path="res://scripts/conveyor_area_3d.gd" id="6_etmqh"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_doktg"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_r4q2i"]
+sky_material = SubResource("ProceduralSkyMaterial_doktg")
+
+[sub_resource type="Environment" id="Environment_m78ho"]
+background_mode = 2
+sky = SubResource("Sky_r4q2i")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4q2i"]
+albedo_texture = ExtResource("1_f4d73")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_3d58g"]
+material = SubResource("StandardMaterial3D_r4q2i")
+size = Vector3(32, 1, 32)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f4d73"]
+friction = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f4d73"]
+size = Vector3(0.5, 0.2, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f4d73"]
+render_priority = 0
+shader = ExtResource("4_f4d73")
+shader_parameter/speed = -0.5
+shader_parameter/texture_scale = Vector2(2, 2)
+shader_parameter/albedo_texture = ExtResource("3_f4d73")
+
+[sub_resource type="BoxMesh" id="BoxMesh_etmqh"]
+material = SubResource("ShaderMaterial_f4d73")
+size = Vector3(0.5, 0.2, 1)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_etmqh"]
+friction = 0.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_etmqh"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_8q4e2"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[node name="main" type="Node"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_m78ho")
+
+[node name="levels" type="Node3D" parent="."]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="levels"]
+use_collision = true
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="levels/CSGCombiner3D"]
+mesh = SubResource("BoxMesh_3d58g")
+
+[node name="Player" parent="levels" instance=ExtResource("2_etmqh")]
+transform = Transform3D(0.00626567, 0, -0.99998, 0, 1, 0, 0.99998, 0, 0.00626567, -2.32256, 1.63965, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="conveyor_belt_area1" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, 0)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area1"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area1"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area1/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -1)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area2"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area2"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area2/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -2)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area3"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area3"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area3/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area4" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -3)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area4"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area4"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area4/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area5" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -4)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area5"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area5"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area5/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area6" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -5)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area6"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area6"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area6/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area7" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -6)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area7"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area7"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area7/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area8" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.22696, -7)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area8"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area8"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area8/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="conveyor_belt_area9" type="StaticBody3D" parent="."]
+transform = Transform3D(0.498442, 0, 0.866923, 0, 1, 0, -0.866923, 0, 0.498442, 1, 1.22696, -8.05437)
+physics_material_override = SubResource("PhysicsMaterial_f4d73")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="conveyor_belt_area9"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="conveyor_belt_area9"]
+mesh = SubResource("BoxMesh_etmqh")
+
+[node name="Area3D" type="Area3D" parent="conveyor_belt_area9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+script = ExtResource("6_etmqh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="conveyor_belt_area9/Area3D"]
+shape = SubResource("BoxShape3D_f4d73")
+
+[node name="rigCube" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.7, 0.38251)
+physics_material_override = SubResource("PhysicsMaterial_etmqh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="rigCube"]
+shape = SubResource("BoxShape3D_etmqh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="rigCube"]
+mesh = SubResource("BoxMesh_8q4e2")
