@@ -5,4 +5,7 @@
 
 
 # Credits:
-https://www.youtube.com/watch?v=Gfpnxg-jne4&t=34s
+- https://www.youtube.com/watch?v=Gfpnxg-jne4
+- https://www.youtube.com/watch?v=ENpCQUj371k
+- https://www.youtube.com/watch?v=PvHzzk5OSGs
+- https://docs.godotengine.org/en/stable/tutorials/math/interpolation.html

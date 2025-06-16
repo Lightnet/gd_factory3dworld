@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://bmahisl22kxd1"]
+
+[ext_resource type="Texture2D" uid="uid://ys1nt5dnpw2k" path="res://addons/kenney_prototype_textures/dark/texture_08.png" id="1_261a0"]
+[ext_resource type="PackedScene" uid="uid://cvwejj6vurbsg" path="res://prefabs/player/player.tscn" id="2_6hyff"]
+[ext_resource type="Script" uid="uid://bgcgx4844l3yf" path="res://scripts/reticle.gd" id="4_6hyff"]
+[ext_resource type="PackedScene" uid="uid://cvtbwen0b183x" path="res://prefabs/meshpointer/meshpointer_3d.tscn" id="5_wcbd3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_doktg"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_r4q2i"]
+sky_material = SubResource("ProceduralSkyMaterial_doktg")
+
+[sub_resource type="Environment" id="Environment_m78ho"]
+background_mode = 2
+sky = SubResource("Sky_r4q2i")
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4q2i"]
+albedo_texture = ExtResource("1_261a0")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_3d58g"]
+material = SubResource("StandardMaterial3D_r4q2i")
+size = Vector3(32, 1, 32)
+
+[node name="main" type="Node"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_m78ho")
+
+[node name="levels" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="levels"]
+use_collision = true
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="levels/CSGCombiner3D"]
+mesh = SubResource("BoxMesh_3d58g")
+
+[node name="Player" parent="levels" node_paths=PackedStringArray("main") instance=ExtResource("2_6hyff")]
+transform = Transform3D(0.00626567, 0, -0.99998, 0, 1, 0, 0.99998, 0, 0.00626567, -2.32256, 1.63965, 0)
+main = NodePath("..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="reticle" type="CenterContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_6hyff")
+
+[node name="meshpointer3d" parent="." instance=ExtResource("5_wcbd3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

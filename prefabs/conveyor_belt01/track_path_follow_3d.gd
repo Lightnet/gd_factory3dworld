@@ -1,3 +1,4 @@
+#@tool
 extends PathFollow3D
 
 @export var speed:float = 0.09

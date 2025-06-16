@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cvwejj6vurbsg"]
+[gd_scene load_steps=13 format=3 uid="uid://cvwejj6vurbsg"]
 
 [ext_resource type="Script" uid="uid://dmlnslkdqhat6" path="res://scripts/state_machines/statemachine.gd" id="1_ev8v4"]
 [ext_resource type="Script" uid="uid://cxhrwkf8jkxwh" path="res://prefabs/player/player.gd" id="1_vhck3"]
@@ -8,13 +8,16 @@
 [ext_resource type="Script" uid="uid://cfpqewy7fryu5" path="res://scripts/state_machines/crouch.gd" id="5_30gqm"]
 [ext_resource type="Script" uid="uid://bp2olmqefk6d" path="res://scripts/state_machines/sprint.gd" id="6_hvqk4"]
 [ext_resource type="Script" uid="uid://dh0c3cr0nsjh7" path="res://scripts/state_machines/fall.gd" id="7_b6byk"]
+[ext_resource type="Script" uid="uid://d0yw5rp84xwpi" path="res://scripts/builds/conveyor_build.gd" id="9_2c4n1"]
+[ext_resource type="PackedScene" uid="uid://ql1nuayry33m" path="res://prefabs/conveyor_rt/conveyor.tscn" id="10_oo3uv"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_u5g63"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eq17h"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("placeholder")]
 script = ExtResource("1_vhck3")
+placeholder = NodePath("conveyor")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_u5g63")
@@ -52,3 +55,11 @@ script = ExtResource("6_hvqk4")
 
 [node name="fall" type="Node" parent="state_machine"]
 script = ExtResource("7_b6byk")
+
+[node name="build_mode" type="Node" parent="."]
+
+[node name="conveyor_build" type="Node" parent="build_mode"]
+script = ExtResource("9_2c4n1")
+
+[node name="conveyor" parent="." instance=ExtResource("10_oo3uv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

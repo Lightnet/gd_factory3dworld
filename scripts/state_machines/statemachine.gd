@@ -102,7 +102,7 @@ func change_state(new_state: Node) -> void:
 	if new_state == current_state:
 		return
 	
-	print("Changing state from ", current_state.name, " to ", new_state.name)
+	#print("Changing state from ", current_state.name, " to ", new_state.name)
 	
 	# Exit current state
 	if current_state.has_method("_exit_state"):

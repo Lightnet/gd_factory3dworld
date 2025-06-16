@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://ql1nuayry33m"]
+
+[ext_resource type="Script" uid="uid://d2lkf6d5mkfub" path="res://scripts/conveyor_belt.gd" id="1_g677b"]
+[ext_resource type="Script" uid="uid://bwnseutw7behj" path="res://prefabs/conveyor_belt01/track_path_follow_3d.gd" id="2_6css7"]
+
+[sub_resource type="Curve3D" id="Curve3D_11hoq"]
+bake_interval = 5.0
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.334573, 0, -0.350498, 0, 0, 0, 0, 0, 0, 0.77612, 0, -0.392838, 0, 0, 0, 0, 0, 0, 1.05436, 0, -0.0601661, 0, 0, 0, 0, 0, 0, 1.0846, 0, 0.284603, 0, 0, 0, 0, 0, 0, 0.694464, 0, 0.529571, 0, 0, 0, 0, 0, 0, 0.373188, 0, 0.95295, 0, 0, 0, 0, 0, 0, -0.476265, 0, 0.885762, 0, 0, 0, 0, 0, 0, -0.936986, 0, 0.463434, 0, 0, 0, 0, 0, 0, -1.06656, 0, -0.256442, 0, 0, 0, 0, 0, 0, -0.8554, 0, -0.837142, 0, 0, 0, 0, 0, 0, -0.169118, 0, -1.0819, 0, 0, 0, 0, 0, 0, 0.435578, 0, -1.01471),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 13
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_maxml"]
+albedo_color = Color(0.121569, 0.0980392, 0.113725, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gftej"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="conveyor" type="Path3D"]
+curve = SubResource("Curve3D_11hoq")
+script = ExtResource("1_g677b")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.28097e-05, 0, 0)
+polygon = PackedVector2Array(-0.15, -0.05, -0.15, 0.05, 0.15, 0.05, 0.15, -0.05)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 0.01
+path_simplify_angle = 10.0
+path_rotation = 1
+path_rotation_accurate = false
+path_local = true
+path_continuous_u = true
+path_u_distance = 0.0
+path_joined = false
+material = SubResource("StandardMaterial3D_maxml")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="."]
+transform = Transform3D(-0.0650996, 0, -0.997879, 0, 1, 0, 0.997879, 0, -0.0650996, 0.834494, 0, -0.35947)
+progress = 1.0
+script = ExtResource("2_6css7")
+speed = 1.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PathFollow3D"]
+mesh = SubResource("BoxMesh_gftej")
